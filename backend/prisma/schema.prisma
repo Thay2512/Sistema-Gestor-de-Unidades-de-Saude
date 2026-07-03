@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -12,7 +11,7 @@ datasource db {
 }
 
 model UnidadeSaude{
-  id               String   @id @default(uuid())
+  id               String   @id @default(autoincrement())
   cnes             String   @unique
   nome             String
   tipo             String
