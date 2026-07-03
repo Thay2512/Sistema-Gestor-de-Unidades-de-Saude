@@ -11,8 +11,8 @@ datasource db {
 }
 
 model UnidadeSaude{
-  id               String   @id @default(autoincrement())
-  cnes             String   @unique
+  id               Int   @id @default(autoincrement())
+  cnes             Int   @unique
   nome             String
   tipo             String
   turno            String
