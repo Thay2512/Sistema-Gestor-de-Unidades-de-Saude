@@ -15,6 +15,10 @@ O **SisGestor** é uma aplicação Full Stack desenvolvida para o gerenciamento 
 
 O planejamento visual da interface foi desenvolvido no Figma, definindo uma identidade moderna e fluida para o gestor de saúde. Abaixo está a demonstração das telas do sistema:
 
+Tela de login
 <img width="1440" height="1024" alt="Image" src="https://github.com/user-attachments/assets/c34af42d-2a85-454e-920a-214bf1728ed0" />
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Tela de cadastro
 <img width="1440" height="1024" alt="Image" src="https://github.com/user-attachments/assets/897cc4f0-1cd0-44cd-b33e-bc970282f76f" />
+
+
