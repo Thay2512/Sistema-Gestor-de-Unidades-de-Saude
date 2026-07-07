@@ -21,4 +21,6 @@ Tela de login
 Tela de cadastro
 <img width="1440" height="1024" alt="Image" src="https://github.com/user-attachments/assets/897cc4f0-1cd0-44cd-b33e-bc970282f76f" />
 
+Tela principal
+<img width="1440" height="1024" alt="Image" src="https://github.com/user-attachments/assets/bab5ac1e-9694-4b44-b74f-8083df2cc7be" />
 
