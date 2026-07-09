@@ -1,0 +1,54 @@
+.header {
+  background-color: #00254d;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem; 
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: auto; 
+}
+
+.logoImagem {
+  height: auto;       
+  width: 300px;        
+  object-fit: contain;
+  display: block;
+}
+
+.menuDireito {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.statusApi {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.botaoSair {
+  background-color: #ffb834;
+  color: #000000;
+  border: none;
+  padding: 0.6rem 2rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
+}
+
+.botaoSair:hover {
+  background-color: #e2a22b;
+}

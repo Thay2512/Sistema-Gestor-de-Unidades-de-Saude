@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Poppins } from 'next/font/google';
+import { Poppins } from 'next/font/google'; 
+import Footer from "@/componentes/Footer/Footer";
 import Header from "@/componentes/Header/Header";
 
 const poppins = Poppins({ 
@@ -22,10 +23,10 @@ export default function RootLayout({
     <html lang="pt-BR" className={poppins.className}>
       <body>
         <Header />
-        
-        <main style={{ padding: '2rem', minHeight: 'calc(100vh - 80px)' }}>
+        <main>
           {children}
         </main>
+        <Footer />  
       </body>
     </html>
   );
