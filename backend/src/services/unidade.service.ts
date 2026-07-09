@@ -1,10 +1,10 @@
 import { prisma } from "../prisma/client"
 
-const api = "https://apidadosabertos.saude.gov.br/assistencia-a-saude/unidade-basicas-de-saude"
+const api = "https://apidadosabertos.saude.gov.br/cnes/estabelecimentos/"
 
 export class UnidadeService {
     async create(dados: { cnes: number }) {
-        const novaUnidade = await fetch(api + `?nu_cnes=${dados.cnes}`)
+        const novaUnidade = await fetch(api + `${dados.cnes}`)
         const resultado = await novaUnidade.json()
 
         const unidadeEncontrada = resultado.content.find(
