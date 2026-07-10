@@ -1,0 +1,131 @@
+/* Container principal que envelopa a página inteira e centraliza tudo */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa; /* Um fundo leve para destacar o formulário */
+}
+
+/* O título centralizado acima do formulário */
+.titulo {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* O Card do Formulário: Largura controlada e centralizado */
+.formulario {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 650px; /* Evita que o formulário estique demais em telas grandes */
+}
+
+/* Subtítulos das seções (Básicas e Opcionais) */
+.formulario h3 {
+  font-size: 1.1rem;
+  color: #495057;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 0.3rem;
+}
+
+/* Cada bloco de Label + Input */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Estilização padrão para todos os Inputs de texto livre */
+.campo input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #212529;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.campo input:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Área inferior onde ficam os botões de Cancelar e Salvar */
+.zonaBotoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Botão de Salvar / Consultar (Padrão Azul) */
+.btnSalvar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  background-color: #0d6efd;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btnSalvar:hover {
+  background-color: #0b5ed7;
+}
+
+.btnSalvar:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Botão de Cancelar (Cinza/Neutro) */
+.btnCancelar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnCancelar:hover {
+  background-color: #e9ecef;
+  color: #212529;
+}
