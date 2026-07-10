@@ -6,7 +6,6 @@ import styles from './Header.module.css';
 export default function Header() {
   return (
     <header className={styles.header}>
-      {/* Lado Esquerdo: Apenas a Logo Oficial Completa */}
       <div className={styles.logoContainer}>
         <img 
           src="/logo.png" 
@@ -15,9 +14,12 @@ export default function Header() {
         />
       </div>
 
-      {/* Lado Direito: API e Ação */}
       <div className={styles.menuDireito}>
-        <span className={styles.statusApi}>API - CNES</span>
+
+        <a href="https://dadosabertos.saude.gov.br/dataset/cnes-cadastro-nacional-de-estabelecimentos-de-saude" className={styles.statusApi}>
+          API - CNES
+        </a>
+
         <button className={styles.botaoSair} onClick={() => alert('Saindo...')}>
           SAIR
         </button>

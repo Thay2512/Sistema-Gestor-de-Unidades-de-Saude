@@ -73,7 +73,6 @@
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-/* Área inferior onde ficam os botões de Cancelar e Salvar */
 .zonaBotoes {
   display: flex;
   justify-content: flex-end;
@@ -82,7 +81,6 @@
   width: 100%;
 }
 
-/* Botão de Salvar / Consultar (Padrão Azul) */
 .btnSalvar {
   display: inline-flex;
   align-items: center;
@@ -108,7 +106,6 @@
   opacity: 0.65;
 }
 
-/* Botão de Cancelar (Cinza/Neutro) */
 .btnCancelar {
   display: inline-flex;
   align-items: center;

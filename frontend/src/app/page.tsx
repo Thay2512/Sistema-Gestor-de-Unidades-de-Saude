@@ -119,18 +119,18 @@ export default function TelaPrincipalPage() {
             {unidades.map((unidade) => (
               <tr key={unidade.id}>
                 <td>{unidade.cnes}</td>
-                <td style={{ fontWeight: 500 }}>{unidade.nome}</td>
+                <td>{unidade.nome}</td>
                 <td>{unidade.endereco}</td>
                 <td>{unidade.turno}</td>
                 <td>{unidade.telefone || "-"}</td>
                 <td>
-                  <button 
+                  <Link 
+                    href={`/nova-unidade?id=${unidade.id}`} 
                     className={styles.btnAcao} 
                     title="Editar"
-                    onClick={() => alert(`Editar a unidade ID: ${unidade.id}`)}
                   >
                     📝
-                  </button>
+                  </Link>
 
                   <button 
                     className={styles.btnAcao} 

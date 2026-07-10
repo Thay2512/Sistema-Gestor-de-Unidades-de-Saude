@@ -1,21 +1,22 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 
 export default function NovaUnidadePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const idEdicao = searchParams.get("id");
+  const ehEdicao = Boolean(idEdicao);
   
-  // 📋 Estados dos Campos (Todos são textos abertos e livres para escrita)
   const [cnes, setCnes] = useState("");
   const [nome, setNome] = useState("");
   const [tipo, setTipo] = useState("");
   const [endereco, setEndereco] = useState("");
   const [turno, setTurno] = useState("");
-  
-  // 📝 Campos Opcionais
+
   const [telefone, setTelefone] = useState("");
   const [equipes, setEquipes] = useState("");
   const [equipamentos, setEquipamentos] = useState("");
@@ -23,7 +24,30 @@ export default function NovaUnidadePage() {
   
   const [carregando, setCarregando] = useState(false);
 
-  // 🔍 1. Consulta o seu Backend (que por sua vez busca no DataSUS)
+  useEffect(() => {
+    if (ehEdicao && idEdicao) {
+      setCarregando(true);
+      fetch(`http://localhost:3001/unidades/${idEdicao}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Erro ao buscar unidade.");
+          return res.json();
+        })
+        .then((dados) => {
+          setCnes(dados.cnes ? String(dados.cnes) : "");
+          setNome(dados.nome || "");
+          setTipo(dados.tipo || "");
+          setEndereco(dados.endereco || "");
+          setTurno(dados.turno || "");
+          setTelefone(dados.telefone || "");
+          setEquipes(dados.equipes || "");
+          setEquipamentos(dados.equipamentos || "");
+          setObservacoes(dados.observacoes || "");
+        })
+        .catch((error) => console.error("Erro ao carregar dados para edição:", error))
+        .finally(() => setCarregando(false));
+    }
+  }, [ehEdicao, idEdicao]);
+
   const handleConsultarAPI = async () => {
     if (!cnes) {
       alert("Por favor, digite o número do CNES primeiro para consultar!");
@@ -40,7 +64,6 @@ export default function NovaUnidadePage() {
       
       const dados = await resposta.json();
       
-      // Auto-preenche os estados, mas eles continuam abertos para edição!
       setNome(dados.nome || "");
       setTipo(dados.tipo || "");
       setEndereco(dados.endereco || "");
@@ -55,22 +78,26 @@ export default function NovaUnidadePage() {
     }
   };
 
-  // 💾 2. Envia tudo para o seu Banco de Dados local via POST
   const handleSalvarDefinitivo = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validação local rápida antes de mandar pro Express
     if (!cnes || !nome || !tipo || !turno || !endereco) {
       alert("Por favor, preencha todos os campos obrigatórios (*).");
       return;
     }
 
+    const url = ehEdicao 
+      ? `http://localhost:3001/unidades/${idEdicao}` 
+      : "http://localhost:3001/unidades";
+
+    const metodo = ehEdicao ? "PUT" : "POST";
+
     try {
-      const resposta = await fetch("http://localhost:3001/unidades", {
-        method: "POST",
+      const resposta = await fetch(url, {
+        method: metodo,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          cnes: Number(cnes), // Envia como número igual o Prisma espera
+          cnes: Number(cnes), 
           nome, 
           tipo, 
           turno, 
@@ -83,9 +110,9 @@ export default function NovaUnidadePage() {
       });
 
       if (resposta.ok) {
-        alert("Unidade gravada com sucesso no seu banco local!");
-        router.push("/"); // Volta para o Dashboard principal
-        router.refresh(); // Atualiza a listagem local
+        alert(ehEdicao ? "Unidade atualizada com sucesso!" : "Unidade gravada com sucesso no seu banco local!");
+        router.push("/"); 
+        router.refresh(); 
       } else {
         const erroJson = await resposta.json();
         alert(`Erro ao salvar: ${erroJson.error || "Verifique os dados."}`);
@@ -97,11 +124,12 @@ export default function NovaUnidadePage() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.titulo}>CADASTRAR UNIDADE DE SAÚDE</h2>
+      <h2 className={styles.titulo}>
+        {ehEdicao ? "EDITAR UNIDADE DE SAÚDE" : "CADASTRAR UNIDADE DE SAÚDE"}
+      </h2>
 
       <form onSubmit={handleSalvarDefinitivo} className={styles.formulario}>
         
-        {/* Bloco de Busca pelo CNES */}
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', marginBottom: '2rem' }}>
           <div className={styles.campo} style={{ flex: 1, marginBottom: 0 }}>
             <label>NÚMERO DO CNES *</label>
@@ -110,23 +138,25 @@ export default function NovaUnidadePage() {
               value={cnes} 
               onChange={(e) => setCnes(e.target.value)} 
               placeholder="Digite o CNES (Ex: 5285550)" 
+              disabled={ehEdicao}
               required
             />
           </div>
-          <button 
-            type="button" 
-            onClick={handleConsultarAPI} 
-            className={styles.btnSalvar} 
-            style={{ height: '45px', backgroundColor: '#0056b3' }}
-            disabled={carregando}
-          >
-            {carregando ? "Buscando..." : "🔍 Puxar da API"}
-          </button>
+          {!ehEdicao && (
+            <button 
+              type="button" 
+              onClick={handleConsultarAPI} 
+              className={styles.btnSalvar} 
+              style={{ height: '45px', backgroundColor: '#0056b3' }}
+              disabled={carregando}
+            >
+              {carregando ? "Buscando..." : "🔍 Puxar da API"}
+            </button>
+          )}
         </div>
 
         <hr style={{ margin: '1.5rem 0', opacity: 0.15 }} />
 
-        {/* 🧱 Seção de Campos Principais */}
         <h3 style={{ marginBottom: '1rem', color: '#333' }}>Informações Básicas (Obrigatórias)</h3>
         
         <div className={styles.campo}>
@@ -149,7 +179,6 @@ export default function NovaUnidadePage() {
           <input type="text" value={turno} onChange={(e) => setTurno(e.target.value)} placeholder="Ex: MANHÃ E TARDE" required />
         </div>
 
- 
         <h3 style={{ margin: '2rem 0 1rem 0', color: '#333' }}>Informações Adicionais (Opcionais)</h3>
 
         <div className={styles.campo}>
@@ -182,8 +211,8 @@ export default function NovaUnidadePage() {
           <Link href="/" className={styles.btnCancelar}>
             Cancelar
           </Link>
-          <button type="submit" className={styles.btnSalvar}>
-            Salvar Unidade
+          <button type="submit" className={styles.btnSalvar} disabled={carregando}>
+            {ehEdicao ? "Salvar Alterações" : "Salvar Unidade"}
           </button>
         </div>
       </form>
