@@ -1,0 +1,118 @@
+.authContainer {
+  display: flex;
+  min-height: 100vh;
+}
+
+.ladoEsquerdo {
+  flex: 1;
+  backgroundColor: #032c56;
+  display: flex;
+  flexDirection: column;
+  justifyContent: center;
+  padding: 0 4rem;
+  color: #fff;
+}
+
+.logoArea {
+  display: flex;
+  alignItems: center;
+  gap: 1rem;
+  marginBottom: 4rem;
+}
+
+.logoCirculo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #3b82f6, #f97316);
+}
+
+.logoTexto h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.logoTextoSub1 {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: #93c5fd;
+  margin: 0;
+}
+
+.logoTextoSub2 {
+  font-size: 0.7rem;
+  color: #60a5fa;
+  margin: 0;
+}
+
+.boasVindas {
+  font-size: 2.8rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.destaqueLaranja {
+  color: #f97316;
+}
+
+.ladoDireito {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.cardForm {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.tituloForm {
+  color: #032c56;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.inputGrupo {
+  margin-bottom: 1.5rem;
+}
+
+.inputGrupo input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 30px;
+  border: none;
+  background-color: #e5e7eb;
+  font-size: 1rem;
+  outline: none;
+}
+
+.linkAlternativo {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
+
+.linkAlternativo a {
+  color: #032c56;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btnEntrar {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 30px;
+  border: none;
+  background-color: #032c56;
+  color: #f97316;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}

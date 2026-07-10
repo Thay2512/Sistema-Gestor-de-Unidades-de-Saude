@@ -1,158 +1,128 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast, Toaster } from "sonner";
 import styles from "./page.module.css";
-import { unidadeService } from "@/services/api";
-import { UnidadeSaude } from "@/tipos/unidade";
 
-export default function TelaPrincipalPage() {
-  const [unidades, setUnidades] = useState<UnidadeSaude[]>([]);
+export default function DashboardPage() {
+  const router = useRouter();
+  const [unidades, setUnidades] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
   const carregarUnidades = async () => {
     try {
       setCarregando(true);
-      const dados = await unidadeService.getAll();
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      const resposta = await fetch(`${apiUrl}/unidades`, {
+        credentials: "include"
+      });
+      
+      if (resposta.status === 401 || resposta.status === 403) {
+        localStorage.clear();
+        router.push("/login");
+        return;
+      }
+
+      const dados = await resposta.json();
       setUnidades(dados || []);
     } catch (error) {
-      console.error("Erro ao buscar unidades do backend, usando array vazio temporário.");
+      toast.error("Erro ao carregar os dados do servidor.");
     } finally {
       setCarregando(false);
     }
   };
 
-  useEffect(() => {
-    carregarUnidades();
-  }, []);
-
-  const handleDeletar = async (id: number) => {
-    if (!confirm("Tem certeza que deseja excluir esta unidade?")) return;
-
+  const handleLogout = async () => {
     try {
-      const resposta = await fetch(`http://localhost:3001/unidades/${id}`, {
-        method: "DELETE",
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      await fetch(`${apiUrl}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
       });
-
-      if (resposta.ok) {
-        alert("Unidade excluída com sucesso!");
-        carregarUnidades(); 
-      } else {
-        alert("Erro ao excluir a unidade do banco.");
-      }
+      localStorage.clear();
+      toast.success("Desconectado com sucesso.");
+      setTimeout(() => router.push("/login"), 1000);
     } catch (error) {
-      alert("Erro de conexão com o servidor backend.");
+      toast.error("Falha ao efetuar logout.");
     }
   };
 
+  const handleDeletar = async (id: number) => {
+    if (!confirm("Deseja realmente remover esta unidade?")) return;
 
-  const totalUnidades = unidades.length;
-  const totalEquipamentos = 0;   
-  const totalProfissionais = 0;  
-  const totalRecursos = 0.00;    
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      const resposta = await fetch(`${apiUrl}/unidades/${id}`, {
+        method: "DELETE",
+        credentials: "include"
+      });
 
+      if (resposta.ok) {
+        toast.success("Unidade removida com sucesso.");
+        carregarUnidades();
+      } else {
+        toast.error("Erro ao remover o recurso.");
+      }
+    } catch (error) {
+      toast.error("Falha na conexão.");
+    }
+  };
+
+  useEffect(() => {
+    const logado = localStorage.getItem("sisgestor_logado");
+    if (!logado) {
+      router.push("/login");
+    } else {
+      carregarUnidades();
+    }
+  }, [router]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.dashboardContainer}>
+      <Toaster position="top-right" richColors />
+      
+      <header className={styles.header}>
+        <h1>SisGestor Saúde</h1>
+        <button onClick={handleLogout} className={styles.btnLogout}>Sair (Logout)</button>
+      </header>
+      
+      <main className={styles.mainContent}>
+        <div className={styles.topBar}>
+          <h2>Gerenciamento de Unidades de Saúde</h2>
+          <Link href="/nova-unidade" className={styles.btnNovaUnidade}>+ Nova Unidade</Link>
+        </div>
 
-      <h2 className={styles.saudacao}>Bem vindo, Gestor (a)!</h2>
-
-      <section className={styles.cardsGrid}>
-        <div className={styles.card}>
-          <span className={styles.cardIcone}>🏠</span>
-          <div className={styles.cardInfo}>
-            <h3>Unidades cadastradas</h3>
-            <p>{totalUnidades} Un.</p>
+        {carregando ? (
+          <p>Carregando registros...</p>
+        ) : unidades.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p>Nenhuma unidade cadastrada pelo seu usuário ainda.</p>
           </div>
-        </div>
-
-        <div className={styles.card}>
-          <span className={styles.cardIcone}>📋</span>
-          <div className={styles.cardInfo}>
-            <h3>Equipamentos ativos</h3>
-            <p>{totalEquipamentos} Un.</p>
-          </div>
-        </div>
-
-        <div className={styles.card}>
-          <span className={styles.cardIcone}>👤</span>
-          <div className={styles.cardInfo}>
-            <h3>Equipes ativas</h3>
-            <p>{totalProfissionais} Un.</p>
-          </div>
-        </div>
-
-        <div className={styles.card}>
-          <span className={styles.cardIcone}>💵</span>
-          <div className={styles.cardInfo}>
-            <h3>Recursos extras</h3>
-            <p>{totalRecursos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
-          </div>
-        </div>
-      </section>
-
-
-      <div className={styles.topoAcoes}>
-        <h3 className={styles.tituloSecao}>UNIDADES CADASTRADAS</h3>
-        
-        <div className={styles.zonaFiltros}>
-          <Link href="/nova-unidade" className={styles.btnNovaUnidade}>
-            Nova Unidade
-          </Link>
-        </div>
-      </div>
-
-
-      <div className={styles.tabelaContainer}>
-        <table className={styles.tabela}>
-          <thead>
-            <tr>
-              <th>CNES</th>
-              <th>NOME</th>
-              <th>ENDEREÇO</th>
-              <th>TURNO</th>
-              <th>TELEFONE</th>
-              <th>AÇÕES</th>
-            </tr>
-          </thead>
-          <tbody>
-            {unidades.map((unidade) => (
-              <tr key={unidade.id}>
-                <td>{unidade.cnes}</td>
-                <td>{unidade.nome}</td>
-                <td>{unidade.endereco}</td>
-                <td>{unidade.turno}</td>
-                <td>{unidade.telefone || "-"}</td>
-                <td>
-                  <Link 
-                    href={`/nova-unidade?id=${unidade.id}`} 
-                    className={styles.btnAcao} 
-                    title="Editar"
-                  >
-                    📝
-                  </Link>
-
-                  <button 
-                    className={styles.btnAcao} 
-                    title="Excluir"
-                    onClick={() => handleDeletar(unidade.id)}
-                  >
-                    🗑️
-                  </button>
-                </td>
-              </tr>
+        ) : (
+          <div className={styles.gridUnidades}>
+            {unidades.map((unidade: any) => (
+              <div key={unidade.id} className={styles.cardUnidade}>
+                <h3>{unidade.nome}</h3>
+                <p><strong>CNES:</strong> {unidade.cnes}</p>
+                <p><strong>Tipo:</strong> {unidade.tipo}</p>
+                <p><strong>Endereço:</strong> {unidade.endereco}</p>
+                <p><strong>Turno:</strong> {unidade.turno}</p>
+                
+                <div className={styles.acoes}>
+                  <Link href={`/nova-unidade?id=${unidade.id}`} className={styles.btnEditar}>Editar</Link>
+                  <button onClick={() => handleDeletar(unidade.id)} className={styles.btnExcluir}>Excluir</button>
+                </div>
+              </div>
             ))}
-            
-            {unidades.length === 0 && (
-              <tr>
-                <td colSpan={6} style={{ textAlign: "center", padding: "3rem", color: "#666" }}>
-                  Nenhuma unidade de saúde cadastrada no banco de dados.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+          </div>
+        )}
+      </main>
+
+      <footer className={styles.footer}>
+        <p>&copy; 2026 SisGestor - Sistema Integrado de Saúde. Todos os direitos reservados.</p>
+      </footer>
     </div>
   );
 }

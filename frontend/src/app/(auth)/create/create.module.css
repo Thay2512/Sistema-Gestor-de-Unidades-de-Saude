@@ -1,0 +1,97 @@
+.centroTotal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.cardForm {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.logoCirculo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #3b82f6, #f97316);
+}
+
+.logoTexto h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #032c56;
+}
+
+.logoTextoSub1 {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: #4b5563;
+  margin: 0;
+}
+
+.logoTextoSub2 {
+  font-size: 0.7rem;
+  color: #9bc2ea;
+  margin: 0;
+}
+
+.tituloForm {
+  color: #032c56;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.inputGrupo {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.inputGrupo input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 30px;
+  border: none;
+  background-color: #e5e7eb;
+  font-size: 1rem;
+  outline: none;
+}
+
+.btnCadastrar {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 30px;
+  border: none;
+  background-color: #032c56;
+  color: #f97316;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+
+.linkAlternativo {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.linkAlternativo a {
+  color: #032c56;
+  font-weight: bold;
+  text-decoration: none;
+}
