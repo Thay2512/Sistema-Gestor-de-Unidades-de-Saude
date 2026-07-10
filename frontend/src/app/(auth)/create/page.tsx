@@ -9,14 +9,22 @@ import styles from "./create.module.css";
 
 export default function CadastroPage() {
   const router = useRouter();
-  const [nome, setNome] = useState("");
+  const [usuario, setUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
 
   const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const resultadoValidacao = cadastroSchema.safeParse({ nome, email, senha });
+    // 1. Validação local: confirmação de senha
+    if (senha !== confirmarSenha) {
+      toast.error("As senhas não coincidem.");
+      return;
+    }
+
+    // 2. Validação com o schema (espera { usuario, email, senha })
+    const resultadoValidacao = cadastroSchema.safeParse({ usuario, email, senha });
 
     if (!resultadoValidacao.success) {
       resultadoValidacao.error.issues.forEach((issue) => {
@@ -30,7 +38,8 @@ export default function CadastroPage() {
       const resposta = await fetch(`${apiUrl}/auth/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha })
+        // Envia os campos que o backend espera (usuario, email, senha)
+        body: JSON.stringify({ usuario, email, senha })
       });
 
       const dados = await resposta.json();
@@ -67,18 +76,20 @@ export default function CadastroPage() {
         <div className={styles.inputGrupo}>
           <input 
             type="text" 
-            placeholder="Nome" 
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
+            placeholder="Usuário" 
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            required
           />
         </div>
 
         <div className={styles.inputGrupo}>
           <input 
-            type="text" 
+            type="email" 
             placeholder="E-mail" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
 
@@ -88,6 +99,17 @@ export default function CadastroPage() {
             placeholder="Senha" 
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className={styles.inputGrupo}>
+          <input 
+            type="password" 
+            placeholder="Confirmar senha" 
+            value={confirmarSenha}
+            onChange={(e) => setConfirmarSenha(e.target.value)}
+            required
           />
         </div>
 
