@@ -1,21 +1,27 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = "secret-key-unifei";
+export interface AuthRequest extends Request {
+  user?: { id: number; email: string }; // ajuste conforme seu payload
+}
 
-export function autenticarToken(req: Request, res: Response, next: NextFunction): any {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
+export function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
+  // Tenta pegar o token do cookie ou do header Authorization
+  const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+  
   if (!token) {
-    return res.status(401).json({ error: "Acesso negado." });
+    return res.status(401).json({ error: 'Token não fornecido' });
   }
 
   try {
-    const verificado = jwt.verify(token, JWT_SECRET);
-    (req as any).usuario = verificado;
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error('JWT_SECRET não definido');
+    }
+    const decoded = jwt.verify(token, secret) as { id: number; email: string };
+    req.user = decoded; // coloca o usuário na requisição
     next();
   } catch (error) {
-    return res.status(403).json({ error: "Token inválido." });
+    return res.status(403).json({ error: 'Token inválido' });
   }
 }
