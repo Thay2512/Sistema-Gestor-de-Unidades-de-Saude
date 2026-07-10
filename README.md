@@ -1,7 +1,19 @@
 # SisGestor 🏥 - Sistema Gestor de Unidades de Saúde
-O **SisGestor** é uma aplicação Full Stack desenvolvida para o gerenciamento de Unidades de Saúde de Itajubá - MG. O sistema permite cadastrar e listar os códigos CNES (Cadastro Nacional de Estabelecimentos de Saúde), servindo como base para a administração de postos de saúde por parte da gestão municipal.
+O **SisGestor** é uma aplicação Full Stack desenvolvida para o gerenciamento de Unidades de Saúde de Itajubá - MG. O sistema permite o controle completo de estabelecimentos de saúde, servindo como base para a administração de postos de atendimento por parte da gestão municipal.
+
+## 🚀 Funcionalidades Principais
+* **Dashboard de Indicadores:** Monitoramento em tempo real do total de unidades cadastradas.
+* **Consulta Automatizada via CNES:** Integração com API externa para autopreenchimento de dados cadastrais nacionais do SUS.
+* **CRUD Completo de Unidades:** Listagem, cadastro detalhado, atualização dinâmica (reutilizando o mesmo formulário) e exclusão de registros diretamente no painel.
+* **Persistência Local:** Armazenamento seguro de dados básicos, equipes atuantes, equipamentos e notas gerais.
 
 ## 🛠️ Tecnologias Utilizadas
+
+### Frontend
+* **Framework:** Next.js (App Router)
+* **Linguagem:** TypeScript
+* **Estilização:** CSS Modules (Design responsivo e modularizado)
+* **Gerenciamento de Estado:** React Hooks (`useState`, `useEffect`) para interatividade em tempo real (`'use client'`).
 
 ### Backend
 * **Runtime:** Node.js
@@ -9,7 +21,7 @@ O **SisGestor** é uma aplicação Full Stack desenvolvida para o gerenciamento 
 * **Linguagem:** TypeScript
 * **ORM:** Prisma (Banco de dados mapeado por código)
 * **Banco de Dados:** SQLite (Armazenamento leve em arquivo local `app.db`)
-* **Segurança/Integração:** CORS habilitado para comunicação segura com o frontend
+* **Segurança/Integração:** CORS habilitado para comunicação segura entre cliente e servidor
 
 # 🎨 Protótipo do Design
 
@@ -23,4 +35,3 @@ Tela de cadastro
 
 Tela principal
 <img width="1440" height="1024" alt="Image" src="https://github.com/user-attachments/assets/bab5ac1e-9694-4b44-b74f-8083df2cc7be" />
-
