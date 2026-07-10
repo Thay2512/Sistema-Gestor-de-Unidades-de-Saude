@@ -24,7 +24,7 @@ export class UnidadeService {
 
     async create(dados: { 
         cnes: number; nome: string; tipo: string; turno: string; endereco: string; 
-        telefone?: string; observacoes?: string; equipes?: string; equipamentos?: string 
+        telefone?: string; observacoes?: string; equipes?: string; equipamentos?: string; userId: number
     }) {
         return await prisma.unidadeSaude.create({
             data: {
@@ -36,7 +36,8 @@ export class UnidadeService {
                 telefone: dados.telefone || null,
                 observacoes: dados.observacoes || null,
                 equipes: dados.equipes || null,
-                equipamentos: dados.equipamentos || null
+                equipamentos: dados.equipamentos || null,
+                userId: dados.userId
             }
         });    
     }
