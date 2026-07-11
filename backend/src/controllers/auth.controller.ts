@@ -5,25 +5,16 @@ const authService = new AuthService();
 
 export class AuthController{
 
-    async create(req: Request,res: Response)
-    {
-        
-        try{
-            const {email,senha} = req.body;
-
-            const user = await authService.create(email,senha);
-
-            res.json(user);
-        } catch (error)
-        {
-            res.status(400).json({
-                message: 
-                   error instanceof Error
-                   ? error.message
-                   : "Erro",
-            });
-        }
-        
+    async create(req: Request, res: Response) {
+    try {
+        const { usuario, email, senha } = req.body;
+        const user = await authService.create(usuario, email, senha); // <-- aqui
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({
+        message: error instanceof Error ? error.message : "Erro",
+        });
+    }
     }
 
 

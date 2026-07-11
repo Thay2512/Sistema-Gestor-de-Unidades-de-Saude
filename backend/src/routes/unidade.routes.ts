@@ -5,7 +5,7 @@ import { authMiddleware } from '../middlewares/auth.middleware';
 const router = Router();
 const unidadeController = new UnidadeController();
 
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 router.get('/', unidadeController.getAll);
 router.get('/:id', unidadeController.getById);

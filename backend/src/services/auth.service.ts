@@ -4,33 +4,31 @@ import jwt from "jsonwebtoken"
 
 export class AuthService{
 
-    async create(email: string, senha: string)
-    {
-        const existeUser = await prisma.user.findUnique({
-            where: {email}
-        });
+    // src/services/auth.service.ts
+    async create(usuario: string, email: string, senha: string) {
+    const existeUser = await prisma.user.findUnique({
+        where: { email }
+    });
 
-        if(existeUser){
-            throw new Error(
-                "Erro ao criar usuário"
-            );
+    if (existeUser) {
+        throw new Error("Usuário já existe com esse e-mail");
+    }
+
+    const senhaHashed = await bcrypt.hash(senha, 10);
+
+    const user = await prisma.user.create({
+        data: {
+        usuario,   // se o campo no schema for 'usuario'
+        email,
+        senha: senhaHashed
         }
+    });
 
-        const senhaHashed = await bcrypt.hash(senha,10);
-
-        const dados = {
-            email,
-            senha: senhaHashed
-        }
-
-        const user = await prisma.user.create({
-            data: dados,
-        });
-        
-        return {
-            id: user.id,
-            email: user.email
-        }
+    return {
+        id: user.id,
+        email: user.email,
+        usuario: user.usuario
+    };
     }
 
     async login(email: string, senha: string)

@@ -14,7 +14,6 @@ export class UnidadeController {
         return res.status(401).json({ error: 'Usuário não autenticado' });
       }
 
-      // Validação básica
       if (!cnes || !nome || !tipo || !turno || !endereco) {
         return res.status(400).json({ error: 'Campos obrigatórios: cnes, nome, tipo, turno, endereco' });
       }
@@ -41,7 +40,7 @@ export class UnidadeController {
 
   async getAll(req: AuthRequest, res: Response) {
     try {
-      const unidades = await unidadeService.getAll();
+      const unidades = await unidadeService.findAll();
       return res.json(unidades);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
@@ -52,7 +51,7 @@ export class UnidadeController {
     try {
       const id = Number(req.params.id);
       if (isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
-      const unidade = await unidadeService.getById(id);
+      const unidade = await unidadeService.findById(id);
       if (!unidade) return res.status(404).json({ error: 'Unidade não encontrada' });
       return res.json(unidade);
     } catch (error: any) {

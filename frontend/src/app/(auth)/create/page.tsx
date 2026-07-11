@@ -38,7 +38,6 @@ export default function CadastroPage() {
       const resposta = await fetch(`${apiUrl}/auth/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Envia os campos que o backend espera (usuario, email, senha)
         body: JSON.stringify({ usuario, email, senha })
       });
 
@@ -62,14 +61,7 @@ export default function CadastroPage() {
       <Toaster position="top-right" richColors />
       
       <form onSubmit={handleCadastro} className={styles.cardForm}>
-        <div className={styles.logoArea}>
-          <div className={styles.logoCirculo} />
-          <div className={styles.logoTexto}>
-            <h1>SisGestor</h1>
-            <p className={styles.logoTextoSub1}>SISTEMA GESTOR DE SAÚDE</p>
-            <p className={styles.logoTextoSub2}>Unidades de Saúde · Itajubá · MG</p>
-          </div>
-        </div>
+        
 
         <h2 className={styles.tituloForm}>CRIE SUA CONTA AQUI:</h2>
 

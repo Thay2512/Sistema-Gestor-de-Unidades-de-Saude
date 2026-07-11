@@ -54,14 +54,7 @@ export default function LoginPage() {
       <Toaster position="top-right" richColors />
       
       <div className={styles.ladoEsquerdo}>
-        <div className={styles.logoArea}>
-          <div className={styles.logoCirculo} />
-          <div className={styles.logoTexto}>
-            <h1>SisGestor</h1>
-            <p className={styles.logoTextoSub1}>SISTEMA GESTOR DE SAÚDE</p>
-            <p className={styles.logoTextoSub2}>Unidades de Saúde · Itajubá · MG</p>
-          </div>
-        </div>
+        
         <h2 className={styles.boasVindas}>
           SEJA BEM VINDO AO SEU:<br />
           <span className={styles.destaqueLaranja}>SISTEMA<br />GESTOR DE SAÚDE</span>

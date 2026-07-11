@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { unidadeRoutes } from './routes/unidade.routes';
+import unidadeRoutes from './routes/unidade.routes'
 import {authRoutes} from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
 
